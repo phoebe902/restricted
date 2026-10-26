@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Proximity Monitoring</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+
+    <div class="mobile-bar d-lg-none">
+        <button class="btn btn-icon" type="button" data-bs-toggle="offcanvas"
+                data-bs-target="#sidebar" aria-controls="sidebar" aria-label="Open menu">
+            <i class="bi bi-list"></i>
+        </button>
+        <span class="brand-text">Smart Proximity</span>
+        <span class="live-dot"></span>
+    </div>
+
+    <aside class="sidebar offcanvas-lg offcanvas-start" tabindex="-1" id="sidebar"
+           aria-labelledby="sidebarLabel">
+
+        <div class="offcanvas-header d-lg-none">
+            <span class="visually-hidden" id="sidebarLabel">Navigation</span>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas"
+                    data-bs-target="#sidebar" aria-label="Close"></button>
+        </div>
+
+        <div class="sidebar-inner">
+
+            <a class="brand" href="#overview">
+                <span class="brand-logo"><i class="bi bi-broadcast-pin"></i></span>
+                <span>
+                    <span class="brand-text d-block">Smart Proximity</span>
+                    <span class="brand-sub d-block">Monitoring Console</span>
+                </span>
+            </a>
+
+            <div class="nav-caption">Menu</div>
+
+            <nav class="nav flex-column side-nav">
+                <a class="nav-link active" href="#overview">
+                    <i class="bi bi-speedometer2"></i> Overview
+                </a>
+                <a class="nav-link" href="#metrics">
+                    <i class="bi bi-grid-1x2"></i> Live Metrics
+                </a>
+                <a class="nav-link" href="#history">
+                    <i class="bi bi-clock-history"></i> History
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <span class="live-badge">
+                    <span class="live-dot"></span> LIVE MONITORING
+                </span>
+              
+            </div>
+        </div>
+    </aside>
+
+    <main class="content">
+
+
+        <section id="overview" class="section-block">
+            <div class="section-head">
+         
+       
+            </div>
+
+            <div id="connectionBanner" class="connection-banner is-waiting">
+                <div class="cb-icon"><i class="bi bi-wifi"></i></div>
+                <div class="cb-text">
+                    <div class="cb-label">Connection Status</div>
+                    <div class="cb-value" id="connection">Waiting for data updates...</div>
+                </div>
+                <div class="cb-pulse"><span class="live-dot"></span></div>
+            </div>
+        </section>
+
+        <section id="metrics" class="section-block">
+            <div class="row g-4">
+
+                <div class="col-12 col-sm-6 col-xl-3">
+                    <div class="kpi-card h-100">
+                        <div class="kpi-icon icon-blue"><i class="bi bi-rulers"></i></div>
+                        <div class="kpi-label">Current Distance</div>
+                        <div class="kpi-value"><span id="distance">--</span> <small>cm</small></div>
+  
+                    </div>
+                </div>
+
+                <div class="col-12 col-sm-6 col-xl-3">
+                    <div class="kpi-card h-100">
+                        <div class="kpi-icon icon-green"><i class="bi bi-shield-check"></i></div>
+                        <div class="kpi-label">Security Status</div>
+                        <div class="kpi-value"><span id="status">WAITING</span></div>
+                   
+                    </div>
+                </div>
+
+                <div class="col-12 col-sm-6 col-xl-3">
+                    <div class="kpi-card h-100">
+                        <div class="kpi-icon icon-orange"><i class="bi bi-exclamation-triangle"></i></div>
+                        <div class="kpi-label">Danger Events</div>
+                        <div class="kpi-value"><span id="dangerEvents">0</span></div>
+                   
+                    </div>
+                </div>
+
+                <div class="col-12 col-sm-6 col-xl-3">
+                    <div class="kpi-card h-100">
+                        <div class="kpi-icon icon-purple"><i class="bi bi-stopwatch"></i></div>
+                        <div class="kpi-label">Intrusion Duration</div>
+                        <div class="kpi-value"><span id="intrusionDuration">0</span> <small>sec</small></div>
+          
+                    </div>
+                </div>
+
+            </div
+            <div class="panel gauge-panel mt-4">
+                <div class="d-flex align-items-center justify-content-between mb-3">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="kpi-icon icon-orange mb-0"><i class="bi bi-reception-4"></i></div>
+                        <br> <br><div>
+                            
+                            
+                            <h2 class="panel-title">Proximity Gauge</h2>
+                    
+                        </div>
+                    </div>
+                </div>
+
+                <div class="gauge-track">
+                    <div class="gauge-fill" id="gaugeFill"></div>
+                </div>
+
+                <div class="gauge-scale">
+                    <span><i class="bi bi-shield-check"></i> Far / Safe</span>
+                    <span>Near</span>
+                    <span><i class="bi bi-exclamation-octagon"></i> Danger</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- History -->
+        <section id="history" class="section-block">
+            <div class="panel history">
+                <div class="d-flex align-items-center gap-3 mb-3">
+                    <div class="kpi-icon icon-blue mb-0"><i class="bi bi-clock-history"></i></div>
+                    <div>
+                        <h2 class="panel-title">Historical Data</h2>
+                      
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                           <tr>
+                                <th>Time</th>
+                                <th>Distance (cm)</th>
+                                <th>Status</th>
+                                <th>Danger Events</th>
+                                <th>Intrusion Duration</th>
+                            </tr>
+                      </thead>
+                        <tbody id="historyBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+
+    <script>
+    
+        (function () {
+            const links = document.querySelectorAll('.side-nav .nav-link');
+            const sections = Array.from(links).map(l => document.querySelector(l.getAttribute('href')));
+
+            function setActive() {
+                const y = window.scrollY + 140;
+                let current = 0;
+                sections.forEach((sec, i) => { if (sec && sec.offsetTop <= y) current = i; });
+                links.forEach((l, i) => l.classList.toggle('active', i === current));
+            }
+
+            links.forEach(l => l.addEventListener('click', () => {
+                const el = document.getElementById('sidebar');
+                const inst = bootstrap.Offcanvas.getInstance(el);
+                if (inst) inst.hide();
+            }));
+
+            window.addEventListener('scroll', setActive, { passive: true });
+            setActive();
+        })();
+
+        (function () {
+            const text = document.getElementById('connection');
+            const banner = document.getElementById('connectionBanner');
+            const icon = banner.querySelector('.cb-icon i');
+
+            function update() {
+                const t = (text.textContent || '').toLowerCase();
+                let state = 'waiting', ic = 'bi-wifi';
+
+                // ignore harmless phrases such as "no errors" before looking for problems
+                const clean = t.replace(/\b(no|0|zero|without)\s+(errors?|failures?|problems?)\b/g, '');
+
+                if (/\b(disconnect\w*|not\s+connected|offline|lost|fail\w*|error\w*|timeout|timed\s+out|unable)\b/.test(clean)) {
+                    state = 'error'; ic = 'bi-wifi-off';
+                } else if (/\b(connected|live|online|receiving|streaming|updat\w*|active)\b/.test(clean)) {
+                    state = 'ok'; ic = 'bi-wifi';
+                }
+
+                banner.classList.remove('is-ok', 'is-error', 'is-waiting');
+                banner.classList.add('is-' + state);
+                icon.className = 'bi ' + ic;
+            }
+
+            new MutationObserver(update).observe(text, { childList: true, characterData: true, subtree: true });
+            update();
+        })();
+    </script>
+</body>
+</html>
